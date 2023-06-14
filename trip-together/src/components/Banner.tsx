@@ -1,13 +1,19 @@
-import React from "react";
 import BannerImg from "../assets/banner01.jpg";
+import MainText from "../assets/mainText.png";
 
 export default function Banner() {
   return (
     <>
       <div
-        className="w-full h-screen"
+        className="w-full h-screen bg-cover relative"
         style={{ backgroundImage: `url(${BannerImg})` }}
-      ></div>
+      >
+        <img
+          src={MainText}
+          alt="mainText"
+          className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+        />
+      </div>
     </>
   );
 }
