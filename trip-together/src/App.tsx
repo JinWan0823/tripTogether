@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "./pages/Header";
+import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import MainPage from "./pages/MainPage";

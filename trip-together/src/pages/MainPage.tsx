@@ -1,7 +1,9 @@
 import React from "react";
-import Header from "./Header";
+import Header from "../components/Header";
 import Banner from "../components/Banner";
 import TravelRecommend from "../components/TravelRecommend";
+import LinkBanner from "../components/LinkBanner";
+import Footer from "../components/Footer";
 
 export default function MainPage() {
   return (
@@ -9,7 +11,8 @@ export default function MainPage() {
       <Header />
       <Banner />
       <TravelRecommend />
-      <div></div>
+      <LinkBanner />
+      <Footer />
     </>
   );
 }
