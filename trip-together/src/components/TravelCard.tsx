@@ -5,18 +5,24 @@ export default function TravelCard(props: {
   firstimage: string;
   addr1: string;
   contentid: number;
+  tel: string;
 }) {
-  const { title, firstimage, addr1, contentid } = props;
+  const { title, firstimage, addr1, contentid, tel } = props;
   return (
-    <li className="w-[30%] ml-[3%]">
+    <li className="w-[30%] mt-[40px] bg-[#f9f9f9] rounded-xl overflow-hidden">
       <Link to={`${contentid}`}>
-        <img
-          src={firstimage}
-          alt="관광지 대표사진"
-          className="w-full object-cover"
-        />
-        <h3>{title}</h3>
-        <p>{addr1}</p>
+        <div className="overflow-hidden">
+          <img
+            src={firstimage}
+            alt="관광지 대표사진"
+            className="w-full object-cover duration-300 hover:scale-110"
+          />
+        </div>
+        <div className="p-[10px] py-[20px] text-[#999]">
+          <h3 className="font-bold text-xl">{title}</h3>
+          <p className="mt-[5px]">{addr1}</p>
+          <p>{tel}</p>
+        </div>
       </Link>
     </li>
   );
