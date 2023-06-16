@@ -13,7 +13,7 @@ export default function Header() {
             </Link>
             <ul className="flex text-m text-[#666] font-semibold ml-20">
               <li>
-                <Link to="/signup">Community</Link>
+                <Link to="/Login">Community</Link>
               </li>
               <li className="ml-10">
                 <Link to="/signup">Travel</Link>
@@ -25,7 +25,7 @@ export default function Header() {
           </div>
           <div>
             <Link
-              to="/signup"
+              to="/Login"
               className="py-2 px-6 bg-[#333] text-white rounded-3xl font-semibold"
             >
               Login

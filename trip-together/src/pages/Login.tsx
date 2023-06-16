@@ -4,7 +4,7 @@ import back from "../assets/fooback.jpg";
 import LoginButton from "../components/LoginButton";
 import FooLogo from "../assets/logo.svg";
 
-export default function SignUp() {
+export default function Login() {
   return (
     <>
       <Header />
