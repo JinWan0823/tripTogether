@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo2.svg";
+import { auth } from "../firebase";
+import { signOut } from "@firebase/auth";
 
 export default function Header() {
+  const userInfo = useContext(AuthContext);
+  console.log("로그인 상태", userInfo);
+
   return (
     <>
       <header className="w-full fixed z-50">
@@ -24,12 +30,24 @@ export default function Header() {
             </ul>
           </div>
           <div>
-            <Link
-              to="/Login"
-              className="py-2 px-6 bg-[#333] text-white rounded-3xl font-semibold"
-            >
-              Login
-            </Link>
+            {userInfo ? (
+              <button
+                className="py-2 px-6 bg-[#333] text-white rounded-3xl font-semibold"
+                onClick={(e: React.FormEvent) => {
+                  e.preventDefault();
+                  signOut(auth);
+                }}
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/Login"
+                className="py-2 px-6 bg-[#333] text-white rounded-3xl font-semibold"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </header>
