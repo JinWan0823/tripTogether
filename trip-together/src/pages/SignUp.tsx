@@ -1,35 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../components/Header";
 import back from "../assets/fooback.jpg";
 import LoginButton from "../components/LoginButton";
 import FooLogo from "../assets/logo.svg";
+import { AuthContext } from "../context/authContext";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../firebase";
-import { Link } from "react-router-dom";
 
-export default function Login() {
-  console.log(auth);
-
+export default function SignUp() {
+  const userInfo = useContext(AuthContext);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [pwd, setPwd] = useState("");
 
-  const handleEmailChange = (e) => {
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const handlePwd = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setPwd(e.target.value);
   };
 
-  // async function loginWithEamil(email, password) {
-  //   try {
-  //     let data;
-  //     data = await signInWithEmailAndPassword(authService, email, password);
-  //     console.log(data);
-  //     window.alert("로그인 성공!");
-  //   } catch (e) {
-  //     return e.message.replace("Firebase: Error ", "");
-  //   }
-  // }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createUserWithEmailAndPassword(auth, email, pwd)
+      .then(() => {
+        alert("회원가입 성공");
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  };
 
   return (
     <>
@@ -42,32 +45,26 @@ export default function Login() {
           <div className="flex justify-center mb-[30px]">
             <img src={FooLogo} alt="logo" />
           </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              // loginWithEamil(email, password);
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <div>
+              <p>ID</p>
               <input
                 type="text"
                 placeholder="ID를 입력하세요."
                 className="w-full border p-2 text-[14px]"
-                onChange={handleEmailChange}
+                onChange={handleEmail}
               />
             </div>
             <div className="mt-[10px]">
+              <p>비밀번호</p>
               <input
                 type="password"
                 placeholder="PASSWORD를 입력하세요."
                 className="w-full border p-2 text-[14px]"
-                autoComplete="new-password"
-                onChange={handlePasswordChange}
+                onChange={handlePwd}
               />
             </div>
-            <LoginButton>로그인</LoginButton>
-            <LoginButton>구글 로그인</LoginButton>
-            <Link to={"/signup"}>회원가입</Link>
+            <LoginButton>회원가입</LoginButton>
           </form>
         </div>
       </div>
