@@ -15,7 +15,7 @@ export default function TravelCard(props: {
           <img
             src={firstimage}
             alt="관광지 대표사진"
-            className="w-full object-cover duration-300 hover:scale-110"
+            className="w-full object-cover duration-300 hover:scale-110 h-[430px]"
           />
         </div>
         <div className="p-[10px] py-[20px] text-[#999]">
