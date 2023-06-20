@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import TravelCard from "./TravelCard";
+import CategoryTabMenu from "./CategoryTabMenu";
+import LoadingCircle from "./LoadingCircle";
 
 interface Doc {
   title: string;
@@ -14,11 +16,13 @@ interface Doc {
 export default function TravelRecommend() {
   const [category, setCategory] = useState("서울");
   const [data, setData] = useState<Doc[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const cachedData: { [key: string]: Doc[] } = {};
 
   useEffect(() => {
     async function getData() {
+      setIsLoading(true);
       let keyword;
       switch (category) {
         case "서울":
@@ -46,6 +50,7 @@ export default function TravelRecommend() {
 
         cachedData[category] = result;
       }
+      setIsLoading(false);
     }
 
     getData();
@@ -56,59 +61,56 @@ export default function TravelRecommend() {
       <div className="inner w-[1240px] mx-auto my-20">
         <h2 className="font-black text-4xl text-center">지역별 여행지</h2>
         <ul className="flex justify-center my-4">
-          <li
-            className={`mx-2 rounded-2xl  py-1 px-4 text-white hover:bg-[#09847F] cursor-pointer ${
-              category === "서울" ? "bg-[#09847F]" : "bg-[#666]"
-            }`}
+          <CategoryTabMenu
+            category={category}
             onClick={() => {
               setCategory("서울");
             }}
           >
             서울
-          </li>
-          <li
-            className={`mx-2 rounded-2xl  py-1 px-4 text-white hover:bg-[#09847F] cursor-pointer ${
-              category === "제주" ? "bg-[#09847F]" : "bg-[#666]"
-            }`}
+          </CategoryTabMenu>
+          <CategoryTabMenu
+            category={category}
             onClick={() => {
               setCategory("제주");
             }}
           >
             제주
-          </li>
-          <li
-            className={`mx-2 rounded-2xl  py-1 px-4 text-white hover:bg-[#09847F] cursor-pointer ${
-              category === "강원" ? "bg-[#09847F]" : "bg-[#666]"
-            }`}
+          </CategoryTabMenu>
+          <CategoryTabMenu
+            category={category}
             onClick={() => {
               setCategory("강원");
             }}
           >
             강원
-          </li>
-          <li
-            className={`mx-2 rounded-2xl  py-1 px-4 text-white hover:bg-[#09847F] cursor-pointer ${
-              category === "경기" ? "bg-[#09847F]" : "bg-[#666]"
-            }`}
+          </CategoryTabMenu>
+          <CategoryTabMenu
+            category={category}
             onClick={() => {
               setCategory("경기");
             }}
           >
             경기
-          </li>
+          </CategoryTabMenu>
         </ul>
-        <ul className="flex flex-wrap justify-between items-start">
-          {data.map((doc: Doc) => (
-            <TravelCard
-              key={doc.modifiedtime}
-              title={doc.title}
-              firstimage={doc.firstimage}
-              addr1={doc.addr1}
-              contentid={doc.contentid}
-              tel={doc.tel}
-            />
-          ))}
-        </ul>
+        {isLoading ? (
+          <LoadingCircle />
+        ) : (
+          // 데이터 로딩이 완료된 경우의 UI
+          <ul className="flex flex-wrap justify-between items-start">
+            {data.map((doc: Doc) => (
+              <TravelCard
+                key={doc.modifiedtime}
+                title={doc.title}
+                firstimage={doc.firstimage}
+                addr1={doc.addr1}
+                contentid={doc.contentid}
+                tel={doc.tel}
+              />
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );
