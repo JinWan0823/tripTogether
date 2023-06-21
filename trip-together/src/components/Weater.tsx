@@ -20,7 +20,6 @@ export default function Weather() {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
-      console.log(lat, lon);
       getWeatherByCurrentLocation(lat, lon);
     });
   };
@@ -31,7 +30,6 @@ export default function Weather() {
     const response = await fetch(url);
     const data = await response.json();
     setWeather(data);
-    console.log(weather);
   };
 
   useEffect(() => {

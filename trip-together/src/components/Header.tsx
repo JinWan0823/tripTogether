@@ -7,8 +7,6 @@ import { signOut } from "@firebase/auth";
 
 export default function Header() {
   const userInfo = useContext(AuthContext);
-  console.log("로그인 상태", userInfo);
-
   return (
     <>
       <header className="w-full fixed z-50">

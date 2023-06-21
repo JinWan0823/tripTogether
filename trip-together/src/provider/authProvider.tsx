@@ -12,7 +12,6 @@ const AuthProvider: React.ComponentType<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const subscribe = auth.onAuthStateChanged((fbUser) => {
-      console.log(`구독`, fbUser);
       setUser(fbUser);
     });
     return subscribe;
