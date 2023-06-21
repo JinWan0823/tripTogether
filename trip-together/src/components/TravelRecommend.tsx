@@ -17,8 +17,7 @@ export default function TravelRecommend() {
   const [category, setCategory] = useState("서울");
   const [data, setData] = useState<Doc[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const cachedData: { [key: string]: Doc[] } = {};
+  const [cachedData, setCachedData] = useState<{ [key: string]: Doc[] }>({});
 
   useEffect(() => {
     async function getData() {
@@ -48,13 +47,16 @@ export default function TravelRecommend() {
         const result = res.data.response.body.items.item;
         setData(result);
 
-        cachedData[category] = result;
+        setCachedData((prevData) => ({
+          ...prevData,
+          [category]: result,
+        }));
       }
       setIsLoading(false);
     }
 
     getData();
-  }, [category]);
+  }, [category, cachedData]);
 
   return (
     <section className="w-full mb-[150px]">
