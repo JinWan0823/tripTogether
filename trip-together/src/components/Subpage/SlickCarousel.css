@@ -1,0 +1,7 @@
+.custom-slide .slick-slide {
+  opacity: 0.5;
+  padding: 5px;
+}
+.custom-slide .slick-current {
+  opacity: 1;
+}
