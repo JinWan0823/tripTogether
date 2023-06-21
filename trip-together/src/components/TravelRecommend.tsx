@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import TravelCard from "./TravelCard";
 import CategoryTabMenu from "./CategoryTabMenu";
-import LoadingCircle from "./LoadingCircle";
+import LoadingCircle from "./common/LoadingCircle";
 
 interface Doc {
   title: string;

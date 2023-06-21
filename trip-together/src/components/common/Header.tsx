@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../../context/authContext";
 import { Link } from "react-router-dom";
-import Logo from "../assets/logo2.svg";
-import { auth } from "../firebase";
+import Logo from "../../assets/logo2.svg";
+import { auth } from "../../firebase";
 import { signOut } from "@firebase/auth";
 
 export default function Header() {

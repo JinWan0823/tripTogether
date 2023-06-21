@@ -1,5 +1,5 @@
-import FooLogo from "../assets/logo.svg";
-import Fooback from "../assets/fooback.jpg";
+import FooLogo from "../../assets/logo.svg";
+import Fooback from "../../assets/fooback.jpg";
 
 export default function Footer() {
   return (

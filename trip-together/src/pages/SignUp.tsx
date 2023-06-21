@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/common/Header";
 import back from "../assets/fooback.jpg";
 import LoginButton from "../components/LoginButton";
 import FooLogo from "../assets/logo.svg";

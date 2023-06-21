@@ -1,6 +1,6 @@
 import BannerImg from "../assets/banner01.jpg";
 import MainText from "../assets/mainText.png";
-import Weather from "./Weater";
+import Weather from "./common/Weater";
 
 export default function Banner() {
   return (
