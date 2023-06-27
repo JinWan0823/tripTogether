@@ -20,10 +20,10 @@ export default function Header() {
                 <Link to="/Login">Community</Link>
               </li>
               <li className="ml-10">
-                <Link to="/signup">Travel</Link>
+                <Link to="/travel">Travel</Link>
               </li>
               <li className="ml-10">
-                <Link to="/signup">Festival</Link>
+                <Link to="/festival">Festival</Link>
               </li>
             </ul>
           </div>

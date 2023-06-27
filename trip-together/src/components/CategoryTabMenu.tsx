@@ -15,7 +15,7 @@ export default function CategoryTabMenu({
     <>
       <li
         className={`mx-2 rounded-2xl  py-1 px-4 text-white hover:bg-[#09847F] cursor-pointer ${
-          isActive ? "bg-[#09847F]" : "bg-[#666]"
+          isActive ? "bg-point-color" : "bg-[#666]"
         }`}
         onClick={onClick}
       >

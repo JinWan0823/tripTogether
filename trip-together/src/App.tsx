@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import SignUp from "./pages/SignUp";
 import TravelProduct from "./pages/TravelProduct";
+import TravelList from "./pages/TravelList";
+import FestivalList from "./pages/FestivalList";
 
 function App() {
   const userInfo = useContext(AuthContext);
@@ -17,7 +19,9 @@ function App() {
           <Route path={"/"} element={<MainPage />}></Route>
           <Route path={"/login"} element={<Login />}></Route>
           <Route path={"/signup"} element={<SignUp />}></Route>
-          <Route path={"/:contentid"} element={<TravelProduct />}></Route>
+          <Route path={"/travel"} element={<TravelList />}></Route>
+          <Route path={"/festival"} element={<FestivalList />}></Route>
+          <Route path={":contentid"} element={<TravelProduct />}></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -7,6 +7,7 @@ import SubBanner from "../components/Subpage/SubBanner";
 import Weather from "../components/common/Weater";
 import TableRow from "../components/TableRow";
 import SlickCarousel from "../components/Subpage/SlickCarousel";
+import UpButton from "../components/common/UpButton";
 
 interface Doc {
   title: string;
@@ -135,6 +136,7 @@ export default function TravelProduct() {
         </div>
       </div>
       <Footer />
+      <UpButton />
     </>
   );
 }

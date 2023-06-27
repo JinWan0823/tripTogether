@@ -10,7 +10,7 @@ export default function TravelCard(props: {
   const { title, firstimage, addr1, contentid, tel } = props;
   return (
     <li className="w-[30%] mt-[40px] bg-[#f9f9f9] rounded-xl overflow-hidden">
-      <Link to={`${contentid}`}>
+      <Link to={`/${contentid}`}>
         <div className="overflow-hidden">
           <img
             src={firstimage}

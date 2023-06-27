@@ -38,7 +38,7 @@ export default function Weather() {
 
   if (weather === null) {
     return (
-      <div className="w-full bg-[#09847F] flex justify-center p-1">
+      <div className="w-full bg-point-color flex justify-center p-1">
         <p className="text-white">위치확인 서비스를 동의해주세요.</p>
       </div>
     );

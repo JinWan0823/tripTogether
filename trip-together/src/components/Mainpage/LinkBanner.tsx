@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function LinkBanner() {
   return (
     <section className="relative h-[100px]">
-      <div className="w-[1300px] mx-auto bg-[#09847F] rounded-[90px] flex shadow-3xl absolute left-[50%] translate-x-[-50%]">
+      <div className="w-[1300px] mx-auto bg-point-color rounded-[90px] flex shadow-3xl absolute left-[50%] translate-x-[-50%]">
         <Link
           to={"/"}
           className="flex-[50%] px-[70px] py-[75px] text-white relative after:w-0.5 after:h-[60%] after:bg-[#dcdcdc] after:content-[''] after:absolute after:right-1 after:top-[50%] after:translate-y-[-50%]"

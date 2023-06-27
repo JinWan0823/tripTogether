@@ -42,7 +42,7 @@ export default function TravelRecommend() {
         setData(cachedData[category]);
       } else {
         const res = await axios(
-          `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?numOfRows=6&MobileOS=ETC&MobileApp=TripTogether&_type=json&arrange=Q&keyword=${keyword}&contentTypeId=12&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
+          `https://apis.data.go.kr/B551011/KorService1/searchKeyword1?numOfRows=6&MobileOS=ETC&MobileApp=TripTogether&_type=json&arrange=R&keyword=${keyword}&contentTypeId=12&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
         );
         const result = res.data.response.body.items.item;
         setData(result);
