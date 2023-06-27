@@ -3,16 +3,15 @@ import Header from "../components/common/Header";
 import back from "../assets/fooback.jpg";
 import LoginButton from "../components/LoginButton";
 import FooLogo from "../assets/logo.svg";
-import { AuthContext } from "../context/authContext";
-import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import { auth } from "../firebase";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
-  const userInfo = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
+  const [name, setName] = useState("");
   const [pwd2, setPwd2] = useState("");
 
   const [errorMessage, setError] = useState("");
@@ -33,10 +32,10 @@ export default function SignUp() {
     setPwd2(e.target.value);
   };
 
-  // const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault();
-  //   setName(e.target.value);
-  // };
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setName(e.target.value);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +46,8 @@ export default function SignUp() {
     }
 
     createUserWithEmailAndPassword(auth, email, pwd)
-      .then(() => {
+      .then((res) => {
+        updateProfile(res.user, { displayName: name });
         alert("회원가입 성공");
         navigate("/");
       })
@@ -82,7 +82,7 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             className="flex items-center justify-center flex-col"
           >
-            {/* <div className="mt-[10px] w-full">
+            <div className="mt-[10px] w-full">
               <p>이름</p>
               <input
                 type="text"
@@ -91,7 +91,7 @@ export default function SignUp() {
                 onChange={handleName}
                 required
               />
-            </div> */}
+            </div>
             <div className="w-full">
               <p>E-mail</p>
               <input
