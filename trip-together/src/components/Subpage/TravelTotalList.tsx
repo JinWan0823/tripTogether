@@ -20,6 +20,7 @@ export default function TravelTotalList() {
   const [pageNum, setPageNum] = useState(1);
   const [category, setCategory] = useState("제목순");
   const [title, setTitle] = useState<string>("여행지");
+  const [contentType, setContentType] = useState<number>(12);
   const prevKeywordRef = useRef<string>("O");
 
   const location = useLocation();
@@ -32,10 +33,11 @@ export default function TravelTotalList() {
 
       if (param === "festival") {
         setTitle("페스티벌");
+        setContentType(15); // 페스티벌인 경우 contentType 값을 15로 설정
       } else {
         setTitle("여행지");
+        setContentType(12); // 여행지인 경우 contentType 값을 12로 설정
       }
-      const contentType = param === "festival" ? 15 : 12; // 수정된 부분
 
       let keyword = "O";
       switch (category) {
@@ -60,11 +62,10 @@ export default function TravelTotalList() {
         setData((prevData) => [...prevData, ...result]);
       }
 
-      console.log(result);
       setIsLoading(false);
     }
     getList();
-  }, [pageNum, category, location.pathname]);
+  }, [pageNum, category, location.pathname, contentType]);
 
   const handleLoadMore = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -102,6 +103,7 @@ export default function TravelTotalList() {
               addr1={doc.addr1}
               contentid={doc.contentid}
               tel={doc.tel}
+              contentType={contentType}
             />
           ))}
         </ul>
