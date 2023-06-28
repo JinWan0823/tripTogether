@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import SubBanner from "../components/Subpage/SubBanner";
 import Weather from "../components/common/Weater";
@@ -26,11 +26,14 @@ export default function TravelProduct() {
   const [data, setData] = useState<Doc[]>([]);
   const [info, setInfo] = useState<Doc[]>([]);
 
+  const location = useLocation();
+  const contentType = location.state.contentType;
+
   const { contentid } = useParams();
   useEffect(() => {
     async function getProduct() {
       const res = await axios(
-        `https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=12&defaultYN=Y&firstImageYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=N&overviewYN=Y&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
+        `https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=${contentType}&defaultYN=Y&firstImageYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=N&overviewYN=Y&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
       );
       const result = res.data.response.body.items.item;
       setData(result);
@@ -41,7 +44,7 @@ export default function TravelProduct() {
   useEffect(() => {
     async function getInfo() {
       const res = await axios(
-        `https://apis.data.go.kr/B551011/KorService1/detailIntro1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=12&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
+        `https://apis.data.go.kr/B551011/KorService1/detailIntro1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=${contentType}&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
       );
       const result = res.data.response.body.items.item;
       setInfo(result);
@@ -57,7 +60,9 @@ export default function TravelProduct() {
       <div className="w-[1300px] mx-auto py-[40px] px-[20px] my-[100px] border-solid rounded-[10px] border-2 border-[#eaeaea] shadow-4xl">
         <div className="flex justify-between ">
           <div id="imgWrap" className="w-[400px]">
-            <SlickCarousel />
+            {data.length > 0 && (
+              <SlickCarousel firstimage={data[0].firstimage} />
+            )}
           </div>
           <div className="w-[calc(100%-440px)]">
             <h2 className="font-bold text-2xl">
