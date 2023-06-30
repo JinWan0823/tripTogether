@@ -1,17 +1,57 @@
-import { useState, useContext } from "react";
+import { useState, useContext, ChangeEvent } from "react";
 import { AuthContext } from "../context/authContext";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export default function WriteForm() {
   const [radio, setRadio] = useState("on");
+  const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [content, setContent] = useState("");
 
-  const handleRadio = (e) => {
-    setRadio(e.target.value);
+  const navigate = useNavigate();
+
+  const handleRadio = (event: ChangeEvent<HTMLInputElement>) => {
+    setRadio(event.target.value);
   };
-  const userInfo = useContext(AuthContext);
-  console.log(userInfo?.displayName);
 
-  const onSubmit = (e) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDate(event.target.value);
+  };
+
+  const handleContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(event.target.value);
+  };
+
+  const userInfo = useContext(AuthContext);
+  const CollectionRef = collection(db, "travel");
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      await addDoc(CollectionRef, {
+        name: userInfo?.displayName,
+        recruit: radio,
+        title: title,
+        content: content,
+        date: date,
+        email: email,
+      });
+      alert("작성을 완료했습니다.");
+      navigate("/");
+    } catch (error) {
+      console.error("게시물 작성 오류 :", error);
+      alert(error);
+    }
   };
 
   return (
@@ -42,6 +82,7 @@ export default function WriteForm() {
               placeholder="제목을 입력해주세요"
               className="w-full border-[1px] p-[10px]"
               required
+              onChange={handleTitleChange}
             />
           </div>
           <div className="flex w-full justify-between mt-[20px]">
@@ -54,6 +95,7 @@ export default function WriteForm() {
                 type="email"
                 placeholder="이메일을 입력해주세요."
                 className="w-full border-[1px] p-[10px]"
+                onChange={handleEmailChange}
               />
             </div>
             <div className="w-[48%]">
@@ -65,6 +107,7 @@ export default function WriteForm() {
                 type="date"
                 className="w-full border-[1px] p-[10px]"
                 required
+                onChange={handleDateChange}
               />
             </div>
           </div>
@@ -79,6 +122,7 @@ export default function WriteForm() {
                 className="w-full p-[10px] border-[1px] min-h-[200px]"
                 placeholder="- 내용을 입력해주세요."
                 required
+                onChange={handleContentChange}
               ></textarea>
             </div>
             <div className="w-[48%]">
@@ -102,7 +146,7 @@ export default function WriteForm() {
                       name="recruit"
                       value="on"
                       className="hidden"
-                      onClick={handleRadio}
+                      onChange={handleRadio}
                     />
                   </div>
                   <div className="w-[48%]">
@@ -120,7 +164,7 @@ export default function WriteForm() {
                       name="recruit"
                       value="off"
                       className="hidden"
-                      onClick={handleRadio}
+                      onChange={handleRadio}
                     />
                   </div>
                 </div>
@@ -128,6 +172,7 @@ export default function WriteForm() {
               <button
                 type="submit"
                 className="w-full h-[50px] bg-point-color inline-flex items-center justify-center rounded-[10px] text-white font-bold mt-[20px]"
+                onClick={onSubmit}
               >
                 작성하기
               </button>

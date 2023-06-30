@@ -17,7 +17,7 @@ export default function Header() {
             </Link>
             <ul className="flex text-m text-[#666] font-semibold ml-20">
               <li>
-                <Link to="/Login">Community</Link>
+                <Link to="/comunity/list">Community</Link>
               </li>
               <li className="ml-10">
                 <Link to="/travel">Travel</Link>
