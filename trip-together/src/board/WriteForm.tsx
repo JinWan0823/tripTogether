@@ -1,7 +1,7 @@
 import { useState, useContext, ChangeEvent } from "react";
 import { AuthContext } from "../context/authContext";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 export default function WriteForm() {
@@ -35,16 +35,37 @@ export default function WriteForm() {
 
   const userInfo = useContext(AuthContext);
   const CollectionRef = collection(db, "travel");
+
   const onSubmit = async (e: React.FormEvent) => {
+    const currentDate = new Date();
+    const dateString = currentDate.toISOString().slice(0, 10);
     e.preventDefault();
     try {
-      await addDoc(CollectionRef, {
+      // await addDoc(CollectionRef, {
+      //   name: userInfo?.displayName,
+      //   recruit: radio,
+      //   title: title,
+      //   content: content,
+      //   date: date,
+      //   email: email,
+      //   views: 0,
+      //   nowDate: dateString,
+      //   writer: userInfo?.email,
+      // });
+      // alert("작성을 완료했습니다.");
+      // navigate("/");
+      const newDocRef = doc(CollectionRef);
+      await setDoc(newDocRef, {
+        id: newDocRef.id,
         name: userInfo?.displayName,
         recruit: radio,
         title: title,
         content: content,
         date: date,
         email: email,
+        views: 0,
+        nowDate: dateString,
+        writer: userInfo?.email,
       });
       alert("작성을 완료했습니다.");
       navigate("/");
@@ -130,7 +151,7 @@ export default function WriteForm() {
                 <p className="text-[20px] font-bold">
                   모집중 <span className="text-point-color">*</span>
                 </p>
-                <div className="flex mt-[15px]">
+                <div className="flex mt-[15px] justify-between">
                   <div className="w-[48%]">
                     <label
                       htmlFor="on"
@@ -152,7 +173,7 @@ export default function WriteForm() {
                   <div className="w-[48%]">
                     <label
                       htmlFor="off"
-                      className={`w-full h-[50px] ml-[10px] text-white font-bold text-[18px] inline-flex items-center justify-center rounded-[10px]  cursor-pointer ${
+                      className={`w-full h-[50px] text-white font-bold text-[18px] inline-flex items-center justify-center rounded-[10px]  cursor-pointer ${
                         radio === "off" ? "bg-point-color" : "bg-[#666]"
                       }`}
                     >
