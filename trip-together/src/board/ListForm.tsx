@@ -1,10 +1,10 @@
 import ListCard from "./ListCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { db } from "../firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { Link } from "react-router-dom";
 
-interface ListData {
+export interface ListData {
   writer: string;
   title: string;
   date: string;
@@ -13,23 +13,51 @@ interface ListData {
   name: string;
   id: string;
   nowDate: string;
+  content: string;
 }
 
 export default function ListForm() {
   const [list, setList] = useState<any[]>([]);
-  const listCollectionRef = collection(db, "travel");
+  const [selectedOption, setSelectedOption] = useState("new");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const selectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const listOpt = e.target.value;
+    setSelectedOption(listOpt);
+    setCurrentPage(1); // 옵션 변경 시 현재 페이지를 1로 초기화
+  };
 
   useEffect(() => {
     const getList = async () => {
-      const querySnapshot = await getDocs(listCollectionRef);
-      console.log(querySnapshot);
-      const dataList = querySnapshot.docs.map((doc) => doc.data() as ListData); // QuerySnapshot에서 문서 데이터를 가져와 배열로 변환
-      console.log(dataList);
-      setList(dataList);
+      let querySnapshot;
+      if (selectedOption === "new") {
+        const q = query(collection(db, "travel"), orderBy("nowDate", "desc"));
+        querySnapshot = await getDocs(q);
+      } else if (selectedOption === "hot") {
+        const q = query(collection(db, "travel"), orderBy("views", "desc"));
+        querySnapshot = await getDocs(q);
+      }
+      if (querySnapshot) {
+        const dataList = querySnapshot.docs.map(
+          (doc) => doc.data() as ListData
+        );
+        setList(dataList);
+      }
     };
 
     getList();
-  }, []);
+  }, [selectedOption]);
+
+  const getCurrentItems = () => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return list.slice(indexOfFirstItem, indexOfLastItem);
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="w-[1140px] mx-auto my-[100px]">
@@ -37,7 +65,17 @@ export default function ListForm() {
         <span className="text-point-color">Contact</span> Trip
       </h2>
       <p className="text-[30px] text-center">함께 여행갈 사람을 찾아보세요.</p>
-      <div className=" w-full mt-[30px]  border-[#dfdfdf] shadow-3xl border-solid border-[1px] rounded-[20px] overflow-hidden">
+      <div className="relative w-full mt-[30px]  border-[#dfdfdf] shadow-3xl border-solid border-[1px] rounded-[20px]">
+        <select
+          name="list_opt"
+          id="opt"
+          className="absolute right-[10px] top-[-15px] translate-y-[-100%] border-[1px] py-[3px] px-[10px] border-[#dfdfdf]"
+          onChange={selectChange}
+          value={selectedOption}
+        >
+          <option value="new">최신순</option>
+          <option value="hot">조회순</option>
+        </select>
         <ul>
           <li className="font-bold flex items-center  text-center border-b-[1px] border-solid border-[#dfdfdf] w-full p-[10px]">
             <div className="write_name w-[15%]">
@@ -53,7 +91,7 @@ export default function ListForm() {
               <p>조회수</p>
             </div>
           </li>
-          {list.map((item, index) => (
+          {getCurrentItems().map((item, index) => (
             <ListCard key={index} item={item} />
           ))}
         </ul>
@@ -65,6 +103,28 @@ export default function ListForm() {
         >
           작성하기
         </Link>
+      </div>
+      <div className="flex justify-center items-center mt-4">
+        {/* 페이지네이션 버튼 */}
+        {list.length > itemsPerPage && (
+          <div className="flex">
+            {Array(Math.ceil(list.length / itemsPerPage))
+              .fill(0)
+              .map((_, index) => (
+                <button
+                  key={index}
+                  className={`px-2 py-1 mx-1 rounded ${
+                    currentPage === index + 1
+                      ? "bg-point-color text-white"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+          </div>
+        )}
       </div>
     </div>
   );
