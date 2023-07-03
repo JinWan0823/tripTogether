@@ -1,8 +1,10 @@
 import ListCard from "./ListCard";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, useContext } from "react";
+import { AuthContext } from "../context/authContext";
 import { db } from "../firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ScrollTo from "../commonFunction/scrollTo";
 
 export interface ListData {
   writer: string;
@@ -14,6 +16,7 @@ export interface ListData {
   id: string;
   nowDate: string;
   content: string;
+  comments: number;
 }
 
 export default function ListForm() {
@@ -21,6 +24,8 @@ export default function ListForm() {
   const [selectedOption, setSelectedOption] = useState("new");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const userInfo = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const selectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const listOpt = e.target.value;
@@ -59,13 +64,22 @@ export default function ListForm() {
     setCurrentPage(pageNumber);
   };
 
+  const handleWrite = () => {
+    if (!userInfo) {
+      alert("로그인이 필요한 서비스입니다.");
+    } else {
+      ScrollTo();
+      navigate("/community/write");
+    }
+  };
+
   return (
     <div className="w-[1140px] mx-auto my-[100px]">
       <h2 className="text-center font-bold text-[80px]">
         <span className="text-point-color">Contact</span> Trip
       </h2>
       <p className="text-[30px] text-center">함께 여행갈 사람을 찾아보세요.</p>
-      <div className="relative w-full mt-[30px]  border-[#dfdfdf] shadow-3xl border-solid border-[1px] rounded-[20px]">
+      <div className="relative w-full mt-[30px]  border-[#dfdfdf] shadow-4xl border-solid border-[1px] rounded-[20px]">
         <select
           name="list_opt"
           id="opt"
@@ -76,18 +90,27 @@ export default function ListForm() {
           <option value="new">최신순</option>
           <option value="hot">조회순</option>
         </select>
+        <button
+          className="flex justify-center items-center bg-point-color text-white w-[160px] rounded-[10px] h-[55px] mt-[40px]  text-lg absolute translate-y-[100%]  bottom-[-20px] right-[0px]"
+          onClick={handleWrite}
+        >
+          작성하기
+        </button>
         <ul>
           <li className="font-bold flex items-center  text-center border-b-[1px] border-solid border-[#dfdfdf] w-full p-[10px]">
             <div className="write_name w-[15%]">
               <p>작성자</p>
             </div>
-            <div className="write_tit w-[55%]">
+            <div className="write_tit w-[60%]">
               <p>제목</p>
             </div>
-            <div className="write_date w-[20%]">
+            <div className="write_date w-[15%]">
               <p>여행 예정 날짜</p>
             </div>
-            <div className="write_views w-[10%]">
+            <div className="write_views w-[5%]">
+              <p>댓글</p>
+            </div>
+            <div className="write_views w-[5%]">
               <p>조회수</p>
             </div>
           </li>
@@ -95,14 +118,6 @@ export default function ListForm() {
             <ListCard key={index} item={item} />
           ))}
         </ul>
-      </div>
-      <div className="flex justify-center items-center">
-        <Link
-          to={"/community/write"}
-          className="flex justify-center items-center bg-point-color text-white w-[160px] rounded-[10px] h-[55px] mt-[40px]  text-lg"
-        >
-          작성하기
-        </Link>
       </div>
       <div className="flex justify-center items-center mt-4">
         {/* 페이지네이션 버튼 */}
