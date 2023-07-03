@@ -8,6 +8,7 @@ import {
   query,
   where,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 
 interface Comment {
@@ -47,15 +48,49 @@ export default function CommentList() {
     fetchComments();
   }, [id]);
 
+  useEffect(() => {
+    const updateCommentsLength = async () => {
+      try {
+        const travelDocRef = doc(collection(db, "travel"), id);
+        const travelDoc = await getDoc(travelDocRef);
+        if (travelDoc.exists()) {
+          const currentCommentsLength = travelDoc.data().comments.length;
+          if (currentCommentsLength !== comments.length) {
+            await updateDoc(travelDocRef, { comments: comments.length });
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    updateCommentsLength();
+  }, [comments, id]);
+
   return (
     <>
-      {comments.map((comment) => (
-        <div key={comment.postId}>
-          {comment.content}
-          {comment.date}
-          {comment.name}
-        </div>
-      ))}
+      <div className="p-[20px] py-[10px] w-full bg-[#f5f5f5]">
+        <p className="font-bold  text-[18px]">
+          댓글 <span className="text-point-color">{comments.length}</span>
+        </p>
+      </div>
+      <ul className="border-b-[1px] border-solid border-[#dfdfdf]">
+        {comments.map((comment, idx) => (
+          <li
+            key={idx}
+            className="p-[20px] py-[10px] border-t-[1px] border-[#dfdfdf] border-solid"
+          >
+            {/* {comment.content}
+            {comment.date}
+            {comment.name} */}
+            <div>
+              <p className="text-[#666]">
+                {comment.name} ({comment.date})
+              </p>
+              <p className="text-[18px]">{comment.content}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
