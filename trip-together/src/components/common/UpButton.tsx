@@ -12,7 +12,7 @@ export default function UpButton() {
     <button
       type="button"
       onClick={scrollToTop}
-      className="w-[60px] h-[60px] rounded-full bg-point-color fixed bottom-[20px] left-[20px]  flex items-center justify-center"
+      className="w-[60px] h-[60px] rounded-full bg-point-color fixed bottom-[20px] left-[20px]  flex items-center justify-center shadow-3xl"
     >
       <img src={upbtn} alt="up-btn" className="w-[50px]" />
     </button>

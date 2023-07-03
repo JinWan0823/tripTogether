@@ -8,9 +8,11 @@ import TravelProduct from "./pages/TravelProduct";
 import TravelList from "./pages/TravelList";
 import FestivalList from "./pages/FestivalList";
 import WritePage from "./board/WritePage";
+import ViewPage from "./board/ViewPage";
 import { db } from "./firebase";
 import { collection, getDocs } from "firebase/firestore";
 import ListPage from "./board/ListPage";
+import EditPage from "./board/EditPage";
 
 function App() {
   const userInfo = useContext(AuthContext);
@@ -36,8 +38,10 @@ function App() {
           <Route path={"/travel"} element={<TravelList />}></Route>
           <Route path={"/festival"} element={<FestivalList />}></Route>
           <Route path={":contentid"} element={<TravelProduct />}></Route>
-          <Route path={"/comunity/write"} element={<WritePage />}></Route>
-          <Route path={"/comunity/list"} element={<ListPage />}></Route>
+          <Route path={"/community/write"} element={<WritePage />}></Route>
+          <Route path={"/community/list"} element={<ListPage />}></Route>
+          <Route path={"/view/:id"} element={<ViewPage />}></Route>
+          <Route path="/edit/:id" element={<EditPage />} />
         </Routes>
       </BrowserRouter>
     </>

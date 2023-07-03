@@ -4,26 +4,33 @@ import { Link } from "react-router-dom";
 import Logo from "../../assets/logo2.svg";
 import { auth } from "../../firebase";
 import { signOut } from "@firebase/auth";
+import ScrollTo from "../../commonFunction/scrollTo";
 
 export default function Header() {
   const userInfo = useContext(AuthContext);
   return (
     <>
       <header className="w-full fixed z-50">
-        <div className="header-inner shadow-3xl flex justify-between w-11/12 mx-auto py-4 px-8 items-center bg-[#fff] m-2 rounded-3xl">
+        <div className="header-inner shadow-4xl flex justify-between w-11/12 mx-auto py-4 px-8 items-center bg-[#fff] m-2 rounded-3xl">
           <div className="flex items-center">
-            <Link to={"/"}>
+            <Link to={"/"} onClick={ScrollTo}>
               <img src={Logo} alt="logo" />
             </Link>
             <ul className="flex text-m text-[#666] font-semibold ml-20">
               <li>
-                <Link to="/comunity/list">Community</Link>
+                <Link to="/community/list" onClick={ScrollTo}>
+                  Community
+                </Link>
               </li>
               <li className="ml-10">
-                <Link to="/travel">Travel</Link>
+                <Link to="/travel" onClick={ScrollTo}>
+                  Travel
+                </Link>
               </li>
               <li className="ml-10">
-                <Link to="/festival">Festival</Link>
+                <Link to="/festival" onClick={ScrollTo}>
+                  Festival
+                </Link>
               </li>
             </ul>
           </div>

@@ -1,13 +1,16 @@
 import FooLogo from "../../assets/logo.svg";
 import Fooback from "../../assets/fooback.jpg";
+import FooterList from "./FooterList";
 
 export default function Footer() {
   return (
     <footer className="w-full bg-[#333] rounded-ss-[250px] overflow-hidden">
       <div
-        className="h-[750px] w-full bg-cover"
+        className="w-full bg-cover"
         style={{ backgroundImage: `url(${Fooback})` }}
-      ></div>
+      >
+        <FooterList />
+      </div>
       <div className="w-[full] bg-[#000] py-[40px]">
         <div className="w-[1300px] mx-auto flex justify-between items-center">
           <div className="text-[#dfdfdf]">
