@@ -38,22 +38,9 @@ export default function WriteForm() {
 
   const onSubmit = async (e: React.FormEvent) => {
     const currentDate = new Date();
-    const dateString = currentDate.toISOString().slice(0, 10);
+    const dateString = currentDate.toISOString();
     e.preventDefault();
     try {
-      // await addDoc(CollectionRef, {
-      //   name: userInfo?.displayName,
-      //   recruit: radio,
-      //   title: title,
-      //   content: content,
-      //   date: date,
-      //   email: email,
-      //   views: 0,
-      //   nowDate: dateString,
-      //   writer: userInfo?.email,
-      // });
-      // alert("작성을 완료했습니다.");
-      // navigate("/");
       const newDocRef = doc(CollectionRef);
       await setDoc(newDocRef, {
         id: newDocRef.id,
@@ -66,9 +53,10 @@ export default function WriteForm() {
         views: 0,
         nowDate: dateString,
         writer: userInfo?.email,
+        comments: 0,
       });
       alert("작성을 완료했습니다.");
-      navigate("/");
+      navigate("/community/list");
     } catch (error) {
       console.error("게시물 작성 오류 :", error);
       alert(error);
@@ -77,11 +65,11 @@ export default function WriteForm() {
 
   return (
     <>
-      <div className=" w-[1140px] mx-auto my-[100px] border-[#dfdfdf] shadow-3xl border-solid border-[1px] rounded-[20px] p-[40px] py-[45px]">
+      <div className=" w-[1140px] mx-auto my-[100px] border-[#dfdfdf] shadow-4xl border-solid border-[1px] rounded-[20px] p-[40px] py-[45px]">
         <div>
           <dl>
             <dt className="text-[80px] font-bold">
-              <span className="text-point-color">CONTACT</span> US
+              <span className="text-point-color">CONTACT</span> TRIP
             </dt>
             <dd className="text-[30px] pt-[10px]">
               함께 여행갈 사람을 찾아보세요.
