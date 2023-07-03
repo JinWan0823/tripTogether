@@ -5,3 +5,26 @@
 .custom-slide .slick-current {
   opacity: 1;
 }
+.slick-slide img {
+  height: 266px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.custom-slide .slick-slide img {
+  height: 82px;
+  width: 100%;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #09847f;
+}
+.slick-prev {
+  left: -16px;
+}
+.slick-next {
+  right: -20px;
+}

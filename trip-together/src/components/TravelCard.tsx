@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ScrollTo from "../commonFunction/scrollTo";
 
 export default function TravelCard(props: {
   title: string;
@@ -6,11 +7,17 @@ export default function TravelCard(props: {
   addr1: string;
   contentid: number;
   tel: string;
+  contentType?: number;
 }) {
-  const { title, firstimage, addr1, contentid, tel } = props;
+  const { title, firstimage, addr1, contentid, tel, contentType } = props;
+  const validContentType = contentType !== undefined ? contentType : 12;
   return (
     <li className="w-[30%] mt-[40px] bg-[#f9f9f9] rounded-xl overflow-hidden">
-      <Link to={`/${contentid}`}>
+      <Link
+        to={`/${contentid}`}
+        state={{ contentType: validContentType }}
+        onClick={ScrollTo}
+      >
         <div className="overflow-hidden">
           <img
             src={firstimage}

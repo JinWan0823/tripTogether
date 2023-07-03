@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SubBanner from "../components/Subpage/SubBanner";
 import Weather from "../components/common/Weater";
 import TableRow from "../components/TableRow";
 import SlickCarousel from "../components/Subpage/SlickCarousel";
 import UpButton from "../components/common/UpButton";
+import ScrollTo from "../commonFunction/scrollTo";
 
 interface Doc {
   title: string;
@@ -26,11 +27,15 @@ export default function TravelProduct() {
   const [data, setData] = useState<Doc[]>([]);
   const [info, setInfo] = useState<Doc[]>([]);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const contentType = location.state.contentType;
+
   const { contentid } = useParams();
   useEffect(() => {
     async function getProduct() {
       const res = await axios(
-        `https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=12&defaultYN=Y&firstImageYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=N&overviewYN=Y&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
+        `https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=${contentType}&defaultYN=Y&firstImageYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=N&overviewYN=Y&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
       );
       const result = res.data.response.body.items.item;
       setData(result);
@@ -49,6 +54,11 @@ export default function TravelProduct() {
     getInfo();
   }, []);
 
+  const handleList = () => {
+    ScrollTo();
+    navigate(-1);
+  };
+
   return (
     <>
       <Header />
@@ -57,7 +67,9 @@ export default function TravelProduct() {
       <div className="w-[1300px] mx-auto py-[40px] px-[20px] my-[100px] border-solid rounded-[10px] border-2 border-[#eaeaea] shadow-4xl">
         <div className="flex justify-between ">
           <div id="imgWrap" className="w-[400px]">
-            <SlickCarousel />
+            {data.length > 0 && (
+              <SlickCarousel firstimage={data[0].firstimage} />
+            )}
           </div>
           <div className="w-[calc(100%-440px)]">
             <h2 className="font-bold text-2xl">
@@ -134,6 +146,13 @@ export default function TravelProduct() {
             {data.length > 0 && data[0].overview}
           </p>
         </div>
+        <button
+          type="button"
+          className="bg-point-color text-white w-[160px] rounded-[10px] h-[55px] mt-[40px]  text-lg"
+          onClick={handleList}
+        >
+          이전
+        </button>
       </div>
       <Footer />
       <UpButton />

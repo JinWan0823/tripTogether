@@ -11,9 +11,14 @@ interface Img {
   imgname: string;
   originimgurl: string;
   smallimageurl: string;
+  firstimage: string;
 }
 
-export default function SlickCarousel() {
+interface MainImg {
+  firstimage: string;
+}
+
+export default function SlickCarousel({ firstimage }: MainImg) {
   const [img, setImg] = useState<Img[]>([]);
   const { contentid } = useParams();
   const slider1Ref = useRef<any>(null);
@@ -26,10 +31,17 @@ export default function SlickCarousel() {
       );
       const result = res.data.response.body.items.item;
       setImg(result);
-      console.log(result);
     }
     getImg();
-  }, []);
+  }, [contentid]);
+
+  if (!img) {
+    return (
+      <>
+        <img src={firstimage} alt="mainImage" />
+      </>
+    );
+  }
 
   const sliderSettings = {
     slidesToShow: 1,
