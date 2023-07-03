@@ -37,7 +37,7 @@ export default function Header() {
           <div>
             {userInfo ? (
               <button
-                className="py-2 px-6 bg-[#333] text-white rounded-3xl font-semibold"
+                className="py-2 px-6 bg-point-color text-white rounded-3xl font-semibold"
                 onClick={(e: React.FormEvent) => {
                   e.preventDefault();
                   signOut(auth);
@@ -48,7 +48,7 @@ export default function Header() {
             ) : (
               <Link
                 to="/Login"
-                className="py-2 px-6 bg-[#333] text-white rounded-3xl font-semibold"
+                className="py-2 px-6 bg-point-color text-white rounded-3xl font-semibold"
               >
                 Login
               </Link>
