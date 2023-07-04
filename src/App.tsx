@@ -13,6 +13,7 @@ import { db } from "./firebase";
 import { collection, getDocs } from "firebase/firestore";
 import ListPage from "./board/ListPage";
 import EditPage from "./board/EditPage";
+import "firebase/firestore";
 
 function App() {
   const userInfo = useContext(AuthContext);
