@@ -20,55 +20,68 @@ export default function TravelTotalList() {
   const [pageNum, setPageNum] = useState(1);
   const [category, setCategory] = useState("제목순");
   const [title, setTitle] = useState<string>("여행지");
-  const prevKeywordRef = useRef<string>("O");
+  const prevKeywordRef = useRef<string>("");
   const [contentType, setContentType] = useState<number>(12);
+  const prevPathRef = useRef<string>("");
 
   const location = useLocation();
 
-  useEffect(() => {
-    async function getList() {
-      setIsLoading(true);
+  const getList = async () => {
+    setIsLoading(true);
 
-      const param = location.pathname.split("/")[1];
+    const param = location.pathname.split("/")[1];
 
-      if (param === "festival") {
-        setTitle("페스티벌");
-        setContentType(15); // 페스티벌인 경우 contentType 값을 15로 설정
-      } else {
-        setTitle("여행지");
-        setContentType(12); // 여행지인 경우 contentType 값을 12로 설정
-      }
-
-      let keyword = "O";
-      switch (category) {
-        case "제목순":
-          keyword = "O";
-          break;
-        case "최신순":
-          keyword = "R";
-          break;
-      }
-
-      const res = await axios.get(
-        `https://apis.data.go.kr/B551011/KorService1/areaBasedSyncList1?numOfRows=6&pageNo=${pageNum}&MobileOS=ETC&MobileApp=TripTogether&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D&_type=json&showflag=1&arrange=${keyword}&contentTypeId=${contentType}`
-      );
-      const result = res.data.response.body.items.item;
-
-      if (prevKeywordRef.current !== keyword) {
-        setData(result);
-        prevKeywordRef.current = keyword;
-        setPageNum(1);
-      } else {
-        setData((prevData) => [...prevData, ...result]);
-      }
-      setIsLoading(false);
+    if (param === "festival") {
+      setTitle("페스티벌");
+      setContentType(15); // 페스티벌인 경우 contentType 값을 15로 설정
+    } else {
+      setTitle("여행지");
+      setContentType(12); // 여행지인 경우 contentType 값을 12로 설정
     }
+
+    let keyword = "O";
+    switch (category) {
+      case "제목순":
+        keyword = "O";
+        break;
+      case "최신순":
+        keyword = "R";
+        break;
+    }
+
+    if (
+      prevKeywordRef.current !== keyword ||
+      prevPathRef.current !== location.pathname
+    ) {
+      setPageNum(1);
+      setData([]);
+      prevKeywordRef.current = keyword;
+      prevPathRef.current = location.pathname;
+    }
+
+    const res = await axios.get(
+      `https://apis.data.go.kr/B551011/KorService1/areaBasedSyncList1?numOfRows=6&pageNo=${pageNum}&MobileOS=ETC&MobileApp=TripTogether&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D&_type=json&showflag=1&arrange=${keyword}&contentTypeId=${contentType}`
+    );
+
+    const result = res.data.response.body.items.item;
+
+    setData((prevData) => [...prevData, ...result]);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
     getList();
   }, [pageNum, category, location.pathname, contentType]);
 
   const handleLoadMore = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setPageNum((prevPageNum) => prevPageNum + 1);
+  };
+
+  const handleCategoryChange = (newCategory: string) => {
+    setCategory(newCategory);
+    setPageNum(1); // 카테고리 변경 시 pageNum을 1로 초기화
+    setData([]); // 카테고리 변경 시 data를 초기화
   };
 
   return (
@@ -78,17 +91,13 @@ export default function TravelTotalList() {
         <ul className="flex justify-center my-4">
           <CategoryTabMenu
             category={category}
-            onClick={() => {
-              setCategory("제목순");
-            }}
+            onClick={() => handleCategoryChange("제목순")}
           >
             제목순
           </CategoryTabMenu>
           <CategoryTabMenu
             category={category}
-            onClick={() => {
-              setCategory("최신순");
-            }}
+            onClick={() => handleCategoryChange("최신순")}
           >
             최신순
           </CategoryTabMenu>

@@ -46,7 +46,7 @@ export default function TravelProduct() {
   useEffect(() => {
     async function getInfo() {
       const res = await axios(
-        `https://apis.data.go.kr/B551011/KorService1/detailIntro1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=12&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
+        `https://apis.data.go.kr/B551011/KorService1/detailIntro1?MobileOS=ETC&MobileApp=TripTogether&_type=json&contentId=${contentid}&contentTypeId=${contentType}&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D`
       );
       const result = res.data.response.body.items.item;
       setInfo(result);
