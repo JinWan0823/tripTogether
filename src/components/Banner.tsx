@@ -6,7 +6,7 @@ export default function Banner() {
   return (
     <>
       <div
-        className="w-full h-screen bg-cover relative"
+        className="w-full h-[calc(100vh-32px)] bg-cover relative"
         style={{ backgroundImage: `url(${BannerImg})` }}
       >
         <img

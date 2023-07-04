@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../firebase";
 import { collection, getDocs, orderBy, query, limit } from "firebase/firestore";
 import FooterListCard from "./FooterListCard";
