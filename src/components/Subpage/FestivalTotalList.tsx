@@ -14,7 +14,7 @@ interface Doc {
   tel: string;
 }
 
-export default function TravelTotalList() {
+export default function FestivalTotalList() {
   const [data, setData] = useState<Doc[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [pageNum, setPageNum] = useState(1);
@@ -42,7 +42,7 @@ export default function TravelTotalList() {
     }
 
     const res = await axios.get(
-      `https://apis.data.go.kr/B551011/KorService1/areaBasedSyncList1?numOfRows=6&pageNo=${pageNum}&MobileOS=ETC&MobileApp=TripTogether&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D&_type=json&showflag=1&arrange=${keyword}&contentTypeId=12`
+      `https://apis.data.go.kr/B551011/KorService1/areaBasedSyncList1?numOfRows=6&pageNo=${pageNum}&MobileOS=ETC&MobileApp=TripTogether&serviceKey=2fn2wynhVTJUv2jVWDS3ZU1J9%2Fz1sqtrIEexyzI08LjxNIFDRzEjRauhYrjk%2Ffdiao9pqyVWrbwQw0HW7FpimQ%3D%3D&_type=json&showflag=1&arrange=${keyword}&contentTypeId=15`
     );
 
     const result = res.data.response.body.items.item;
@@ -69,13 +69,11 @@ export default function TravelTotalList() {
   return (
     <>
       <div className="w-[1340px] mx-auto  my-[100px] flex flex-col items-center justify-center">
-        <h2 className="font-black text-4xl text-center">전국 여행지</h2>
+        <h2 className="font-black text-4xl text-center">전국 페스티벌</h2>
         <ul className="flex justify-center my-4">
           <CategoryTabMenu
             category={category}
-            onClick={() => {
-              handleCategoryChange("제목순");
-            }}
+            onClick={() => handleCategoryChange("제목순")}
           >
             제목순
           </CategoryTabMenu>
@@ -95,7 +93,7 @@ export default function TravelTotalList() {
               addr1={doc.addr1}
               contentid={doc.contentid}
               tel={doc.tel}
-              contentType={12}
+              contentType={15}
             />
           ))}
         </ul>

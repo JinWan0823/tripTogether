@@ -36,7 +36,7 @@ export default function Login() {
       .then(() => {
         alert("로그인 성공");
         console.log(`로그인성공`, userInfo);
-        navigate("/");
+        navigate(-1);
       })
       .catch((e) => {
         alert(e);
@@ -49,7 +49,7 @@ export default function Login() {
     signInWithPopup(auth, provider)
       .then(() => {
         alert("로그인 성공");
-        navigate("/");
+        navigate(-1);
       })
       .catch((e) => {
         alert(e);

@@ -33,9 +33,18 @@ export default function SlickCarousel({ firstimage }: MainImg) {
       setImg(result);
     }
     getImg();
-  }, [contentid]);
+  }, [contentid, img]);
 
   if (!img) {
+    return (
+      <>
+        <img src={firstimage} alt="mainImage" />
+      </>
+    );
+  }
+
+  console.log(img.length);
+  if (img.length < 3) {
     return (
       <>
         <img src={firstimage} alt="mainImage" />
