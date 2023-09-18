@@ -2,6 +2,7 @@
   "name": "trip-together",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://jinwan0823.github.io/tripTogether",
   "type": "module",
   "scripts": {
     "dev": "vite",
