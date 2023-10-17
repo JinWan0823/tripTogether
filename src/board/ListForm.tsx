@@ -3,7 +3,7 @@ import { useState, useEffect, ChangeEvent, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { db } from "../firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ScrollTo from "../commonFunction/scrollTo";
 
 export interface ListData {

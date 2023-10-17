@@ -1,7 +1,7 @@
 import { useState, useContext, ChangeEvent } from "react";
 import { AuthContext } from "../context/authContext";
 import { db } from "../firebase";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 export default function WriteForm() {

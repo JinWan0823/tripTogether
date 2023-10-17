@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { useParams } from "react-router-dom";

@@ -9,7 +9,7 @@ interface WeatherMain {
 interface WeatherType {
   name: string;
   main: MainWeatherInfo;
-  weather: WeatherMain;
+  weather: WeatherMain[];
 }
 
 export default function Weather() {
@@ -49,7 +49,8 @@ export default function Weather() {
       <p>
         위치 : {weather && weather.name} 온도 :{" "}
         {weather && `${(Math.floor(weather.main.temp) - 273.15).toFixed(2)}`} C
-        날씨 : {weather && weather.weather[0].main}
+        날씨 :{" "}
+        {weather && weather.weather.length > 0 && weather.weather[0].main}
       </p>
     </div>
   );

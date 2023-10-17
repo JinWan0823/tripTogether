@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
-import { AuthContext } from "../context/authContext";
 import { db } from "../firebase";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +13,6 @@ export default function EditForm() {
   const [content, setContent] = useState("");
 
   const navigate = useNavigate();
-  const userInfo = useContext(AuthContext);
   const postRef = doc(collection(db, "travel"), id);
 
   useEffect(() => {
